@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@100;300;400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Lato", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  padding: 0 20px;
+  overflow: auto;
+  position: relative;
+}
+
+/* To Overide the background color that comes with MUI ListItemButton */
+.MuiListItemButton-root:hover {
+  background-color: transparent !important;
+}
