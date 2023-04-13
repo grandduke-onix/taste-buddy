@@ -23,6 +23,10 @@ const ErrorPage = function () {
 		subTitle = "Could not find resource or page";
 	}
 
+	if (error.status === 402) {
+		subTitle = "Please try again tomorrow";
+	}
+
 	if (error.status === 500) {
 		subTitle = JSON.parse(error.data).message;
 	}

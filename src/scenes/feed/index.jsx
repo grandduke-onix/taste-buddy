@@ -27,13 +27,13 @@ const MyFeed = function () {
 			);
 			const data = await response.json();
 			const loadedData = data.recipes;
-			console.log(loadedData);
+			// console.log(loadedData);
 			//Add the new data to the previous data on button click
 			setNewRecipes(prevData => [...prevData, ...loadedData]);
 			setIsLoading(false);
 			setErrorLoading(false);
 		} catch {
-			setErrorMessage("Unable to fetch recipes 😥");
+			setErrorMessage("Unable to fetch recipes😥, please check your connection");
 			setIsLoading(false);
 			setErrorLoading(true);
 		}
@@ -98,7 +98,13 @@ const MyFeed = function () {
 				))}
 			</Box>
 			{isLoading && <RecipeLoader />}
-			{errorLoading && errorMessage && <Typography variant="h3">{errorMessage}</Typography>}
+			<Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+				{errorLoading && errorMessage && (
+					<Typography variant="h3" textAlign={"center"}>
+						{errorMessage}
+					</Typography>
+				)}
+			</Box>
 
 			<Box
 				display={isNonMobile ? "flex" : "null"}
@@ -120,7 +126,7 @@ export const loader = async function () {
 		`https://api.spoonacular.com/recipes/random?number=10&addRecipeInformation=true&apiKey=${APIKEY}`
 	);
 	if (!response.ok) {
-		throw new Response(JSON.stringify({ message: "Could not fetch recipes" }), { status: 500 });
+		throw new Response(JSON.stringify({ message: "Could not fetch recipes" }), { status: 402 });
 	} else {
 		return response;
 	}

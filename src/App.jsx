@@ -61,7 +61,12 @@ const router = createBrowserRouter([
 					</Suspense>
 				),
 			},
-			{ path: "/recipe-details/:recipeId", element: <RecipeDetails /> },
+			{
+				path: "/recipe-details/:recipeId",
+				element: <RecipeDetails />,
+				// loader: () =>
+				// 	import("../src/components/RecipeDetails").then(module => module.loader()),
+			},
 		],
 	},
 ]);
