@@ -1,24 +1,29 @@
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Divider, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { themeSettings } from "../../theme";
 
 const RecipeInstructions = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box pt={"80px"} px={"50px"}>
-			<Typography color={color.palette.onSurface.main} variant="h3">
+		<Box pt={"80px"} px={isNonMobile && "50px"}>
+			<Typography color={color.palette.onSurface.main} variant={isNonMobile ? "h2" : "h3"}>
 				Directions:
 			</Typography>
 			{props.instructions.map(i => (
 				<Box
-					pt={"20px"}
-					px={"20px"}
+					pt={isNonMobile && "20px"}
+					px={isNonMobile ? "20px" : "8px"}
 					color={color.palette.onSurface.main}
 					key={`${i.number}`}
 				>
-					<Typography variant="h3" sx={{ pt: "15px" }} fontWeight={700}>
+					<Typography
+						variant={isNonMobile ? "h3" : "h4"}
+						sx={{ pt: "15px" }}
+						fontWeight={700}
+					>
 						<span style={{ fontWeight: 300 }}>{i.number}) </span>
 						{i.step}
 					</Typography>

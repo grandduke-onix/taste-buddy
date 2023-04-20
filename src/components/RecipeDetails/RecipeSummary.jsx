@@ -1,18 +1,24 @@
 import React from "react";
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Button, Divider, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { themeSettings } from "../../theme";
 
 const RecipeSummary = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box px={"50px"} color={color.palette.onSurface.main}>
-			<Typography variant="h1Variant" fontSize={"36px"} fontWeight={700}>
+		<Box px={isNonMobile ? "50px" : 0} color={color.palette.onSurface.main}>
+			<Typography
+				variant="h1Variant"
+				fontSize={isNonMobile ? "36px" : "26px"}
+				fontWeight={700}
+				textAlign={isNonMobile && "left"}
+			>
 				{/* Recipe Title */}
 				{props.title}
 			</Typography>
-			<Typography variant="h3" pt={"6px"}>
+			<Typography variant="h3" pt={"6px"} fontSize={!isNonMobile && "20px"}>
 				{/* Author of the recipe */}
 				{props.author}
 			</Typography>
@@ -25,7 +31,7 @@ const RecipeSummary = function (props) {
 				{/* {props.summary} */}
 			</Typography>
 			{/* Recipe overview */}
-			<Box display={"flex"} flexDirection={"column"} pt={"50px"}>
+			<Box display={"flex"} flexDirection={"column"} pt={isNonMobile ? "50px" : "20px"}>
 				<Divider
 					sx={{ backgroundColor: color.palette.outline.main }}
 					flexItem
@@ -36,15 +42,15 @@ const RecipeSummary = function (props) {
 					<Box flex={"1 0 50%"} display={"flex"} justifyContent={"center"}>
 						{/* Options for the left hand side */}
 						<Box py={"15px"} display={"flex"} gap={"10px"} flexDirection={"column"}>
-							<Typography variant="h3" fontWeight={900}>
+							<Typography variant={isNonMobile ? "h3" : "h4"} fontWeight={900}>
 								<span style={{ fontWeight: 300 }}>Time: </span>
 								{props.time} mins
 							</Typography>
-							<Typography variant="h3" fontWeight={900}>
+							<Typography variant={isNonMobile ? "h3" : "h4"} fontWeight={900}>
 								<span style={{ fontWeight: 300 }}>Yield: </span>
 								{props.yield} servings
 							</Typography>
-							<Typography variant="h3" fontWeight={900}>
+							<Typography variant={isNonMobile ? "h3" : "h4"} fontWeight={900}>
 								<span style={{ fontWeight: 300 }}>Price per serving: </span>$
 								{props.PPS}
 							</Typography>
@@ -60,7 +66,7 @@ const RecipeSummary = function (props) {
 						<Box display={"flex"} flexDirection={"column"} gap={"10px"}>
 							{/* Button to display nutrional info */}
 							<Typography
-								variant="h3"
+								variant={isNonMobile ? "h3" : "h4"}
 								fontWeight={900}
 								onClick={() => props.setOpenModal(!props.openModal)}
 								sx={{
@@ -71,7 +77,7 @@ const RecipeSummary = function (props) {
 							>
 								Nutrition Info
 							</Typography>
-							<Typography variant="h3" fontWeight={900}>
+							<Typography variant={isNonMobile ? "h3" : "h4"} fontWeight={900}>
 								<span style={{ fontWeight: 300 }}>Health score: </span>
 								{props.healthScore}
 							</Typography>

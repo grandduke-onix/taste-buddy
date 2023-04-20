@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Divider, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { themeSettings } from "../../theme";
 import CloseIcon from "@mui/icons-material/Close";
@@ -6,19 +6,21 @@ import CloseIcon from "@mui/icons-material/Close";
 const NutritionInfo = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const nutrients = props.nutrients;
 	// console.log(nutrients);
 
 	return (
 		<Box
-			width={"400px"}
-			height={"auto"}
+			width={isNonMobile ? "400px" : "100%"}
+			height={isNonMobile ? "auto" : "100%"}
+			// height={"auto"}
 			backgroundColor={color.palette.surface.mainVariant}
 			borderRadius={"28px"}
 			// px={"24px"}
 			position={"absolute"}
-			top={"20%"}
-			left={"40%"}
+			top={isNonMobile ? "20%" : "70px"}
+			left={isNonMobile ? "40%" : 0}
 			display={!props.openModal && "none"}
 			color={color.palette.onSurface.main}
 			border={`solid ${color.palette.outline.main}`}

@@ -8,6 +8,8 @@ import RecipeIngredients from "./RecipeIngredients";
 import NutritionInfo from "./NutritionInfo";
 import RecipeInstructions from "./RecipeInstructions";
 import { RouteChangeAnimation } from "../Loader";
+import { NutientsBarGrams, NutientsBarMilligrams, CaloriePieChart } from "./nutrition_chart/Chart";
+import NutritionChart from "./nutrition_chart";
 
 const RecipeDetails = function () {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -16,6 +18,8 @@ const RecipeDetails = function () {
 	const [openModal, setOpenModal] = useState(false);
 	const { recipeId } = useParams();
 	const [recipeData, setRecipeData] = useState(null);
+
+	// console.log(recipeData.nutrition);
 
 	const dataLoader = async function () {
 		const response = await fetch(
@@ -34,7 +38,11 @@ const RecipeDetails = function () {
 			{/* For lazy loading when changing the route */}
 			{recipeData ? (
 				<Box>
-					<Box display={"flex"}>
+					<Box
+						display={"flex"}
+						flexDirection={isNonMobile ? "row" : "column-reverse"}
+						gap={!isNonMobile && "20px"}
+					>
 						{/* Right hand side */}
 						<Box flex={"1 0 60%"} height={"auto"}>
 							<RecipeSummary
@@ -80,6 +88,8 @@ const RecipeDetails = function () {
 						/>
 					</Box>
 
+					{/* Nutrition diagrams */}
+					<NutritionChart recipeData={recipeData} />
 					<Box pt={"100px"} px={"50px"}>
 						<Typography variant="h3">Related:</Typography>
 					</Box>
