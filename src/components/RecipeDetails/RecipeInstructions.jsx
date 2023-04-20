@@ -8,7 +8,7 @@ const RecipeInstructions = function (props) {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box pt={"80px"} px={isNonMobile && "50px"}>
+		<Box pt={isNonMobile ? "80px" : "20px"} px={isNonMobile && "50px"}>
 			<Typography color={color.palette.onSurface.main} variant={isNonMobile ? "h2" : "h3"}>
 				Directions:
 			</Typography>

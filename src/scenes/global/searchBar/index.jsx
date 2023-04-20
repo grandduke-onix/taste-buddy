@@ -88,6 +88,7 @@ const SearchBar = function () {
 				alignItems={"center"}
 				justifyContent={"space-between"}
 				position={"fixed"}
+				zIndex={1000}
 				paddingRight={"30px"}
 			>
 				<IconButton onClick={() => setButtonClick(true)}>
