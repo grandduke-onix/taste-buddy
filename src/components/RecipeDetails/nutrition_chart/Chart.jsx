@@ -1,12 +1,13 @@
 import React from "react";
 import { themeSettings } from "../../../theme";
-import { useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
 
 export const CaloriePieChart = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	const colorArray = [
 		color.palette.primary.main,
@@ -21,7 +22,12 @@ export const CaloriePieChart = function (props) {
 	return (
 		<ResponsivePie
 			data={data}
-			margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+			margin={{
+				top: isNonMobile ? 40 : 0,
+				right: 80,
+				bottom: 80,
+				left: isNonMobile ? 80 : 100,
+			}}
 			innerRadius={0.25}
 			padAngle={1}
 			cornerRadius={3}
@@ -30,10 +36,10 @@ export const CaloriePieChart = function (props) {
 			theme={{
 				background: color.palette.surface.main,
 				textColor: color.palette.onSurface.main,
-				fontSize: 17,
+				fontSize: isNonMobile ? 17 : 12,
 				legends: {
 					text: {
-						fontSize: 16,
+						fontSize: isNonMobile ? 16 : 11,
 						fill: color.palette.onSurface.main,
 					},
 				},
@@ -52,7 +58,7 @@ export const CaloriePieChart = function (props) {
 			}}
 			arcLinkLabelsSkipAngle={10}
 			arcLinkLabelsTextColor={color.palette.onSurface.main}
-			arcLinkLabelsThickness={3}
+			arcLinkLabelsThickness={isNonMobile ? 3 : 2}
 			arcLinkLabelsColor={{ from: "color" }}
 			arcLabelsSkipAngle={10}
 			arcLabelsTextColor={{
@@ -68,7 +74,7 @@ export const CaloriePieChart = function (props) {
 					translateX: 0,
 					translateY: 56,
 					itemsSpacing: 0,
-					itemWidth: 150,
+					itemWidth: isNonMobile ? 150 : 110,
 					itemHeight: 18,
 					itemTextColor: color.palette.onSurfaceVariant.main,
 					itemDirection: "left-to-right",
@@ -92,6 +98,7 @@ export const CaloriePieChart = function (props) {
 export const NutientsBarGrams = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	// not my fault just flow with the naming convention😁
 	const gramsData = props.nutrients.nutrients
@@ -109,7 +116,7 @@ export const NutientsBarGrams = function (props) {
 			data={gramsData}
 			keys={["amount"]}
 			indexBy={"nutrient"}
-			margin={{ top: 50, right: 130, bottom: 110, left: 60 }}
+			margin={{ top: 50, right: isNonMobile ? 130 : 30, bottom: 110, left: 60 }}
 			padding={0.3}
 			valueScale={{ type: "linear" }}
 			indexScale={{ type: "band", round: true }}
@@ -205,6 +212,7 @@ export const NutientsBarGrams = function (props) {
 export const NutientsBarMilligrams = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
+	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	// not my fault also just flow with the naming convention😁
 	// To filter out milligrams data
@@ -223,14 +231,13 @@ export const NutientsBarMilligrams = function (props) {
 			data={miligramsData}
 			keys={["amount"]}
 			indexBy={"nutrient"}
-			margin={{ top: 50, right: 130, bottom: 110, left: 60 }}
+			margin={{ top: 50, right: isNonMobile ? 130 : 30, bottom: 110, left: 60 }}
 			padding={0.3}
 			valueScale={{ type: "linear" }}
 			indexScale={{ type: "band", round: true }}
 			colors={color.palette.primary.main}
 			theme={{
 				background: color.palette.surface.main,
-				textColor: "aqua",
 				textColor: color.palette.onSurface.main,
 				fontSize: 11,
 				axis: {
