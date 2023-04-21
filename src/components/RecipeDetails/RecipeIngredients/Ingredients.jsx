@@ -1,9 +1,12 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { themeSettings } from "../../../theme";
 
 const Ingredients = function (props) {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
+	const themes = useTheme();
+	const color = themeSettings(themes.palette.mode);
 
 	return (
 		<Box mx={isNonMobile ? "30px" : 0} my={"30px"}>
@@ -17,6 +20,7 @@ const Ingredients = function (props) {
 					px={isNonMobile ? "20px" : "10px"}
 					key={`${i}-${i.name}`}
 					alignItems={"center"}
+					color={color.palette.onSurface.main}
 				>
 					<AddCircleOutlineIcon />
 					<Typography variant={isNonMobile ? "h3" : "h4"} fontWeight={900}>

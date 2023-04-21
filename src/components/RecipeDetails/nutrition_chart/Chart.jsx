@@ -24,9 +24,9 @@ export const CaloriePieChart = function (props) {
 			data={data}
 			margin={{
 				top: isNonMobile ? 40 : 0,
-				right: 80,
+				right: isNonMobile ? 80 : 20,
 				bottom: 80,
-				left: isNonMobile ? 80 : 100,
+				left: isNonMobile ? 80 : 20,
 			}}
 			innerRadius={0.25}
 			padAngle={1}
@@ -34,7 +34,7 @@ export const CaloriePieChart = function (props) {
 			activeOuterRadiusOffset={8}
 			colors={{ datum: "data.color" }}
 			theme={{
-				background: color.palette.surface.main,
+				background: color.palette.surface.mainVariant,
 				textColor: color.palette.onSurface.main,
 				fontSize: isNonMobile ? 17 : 12,
 				legends: {
@@ -45,7 +45,7 @@ export const CaloriePieChart = function (props) {
 				},
 				tooltip: {
 					container: {
-						background: color.palette.surface.main,
+						background: color.palette.surface.mainVariant,
 						color: color.palette.onSurface.main,
 						fontSize: 15,
 					},
@@ -56,10 +56,12 @@ export const CaloriePieChart = function (props) {
 				from: "color",
 				modifiers: [["darker", 0.2]],
 			}}
+			enableArcLinkLabels={isNonMobile ? true : false}
 			arcLinkLabelsSkipAngle={10}
 			arcLinkLabelsTextColor={color.palette.onSurface.main}
 			arcLinkLabelsThickness={isNonMobile ? 3 : 2}
 			arcLinkLabelsColor={{ from: "color" }}
+			arcLabel={e => `${e.value}%`}
 			arcLabelsSkipAngle={10}
 			arcLabelsTextColor={{
 				from: "color",
@@ -122,8 +124,8 @@ export const NutientsBarGrams = function (props) {
 			indexScale={{ type: "band", round: true }}
 			colors={color.palette.primary.main}
 			theme={{
-				background: color.palette.surface.main,
-				textColor: "aqua",
+				background: color.palette.surface.mainVariant,
+				// textColor: "aqua",
 				textColor: color.palette.onSurface.main,
 				fontSize: 11,
 				axis: {
@@ -173,6 +175,13 @@ export const NutientsBarGrams = function (props) {
 							fontSize: 10,
 							fill: "#333333",
 						},
+					},
+				},
+				tooltip: {
+					container: {
+						background: color.palette.surface.mainVariant,
+						color: color.palette.onSurface.main,
+						fontSize: 12,
 					},
 				},
 			}}
@@ -237,7 +246,7 @@ export const NutientsBarMilligrams = function (props) {
 			indexScale={{ type: "band", round: true }}
 			colors={color.palette.primary.main}
 			theme={{
-				background: color.palette.surface.main,
+				background: color.palette.surface.mainVariant,
 				textColor: color.palette.onSurface.main,
 				fontSize: 11,
 				axis: {
@@ -287,6 +296,13 @@ export const NutientsBarMilligrams = function (props) {
 							fontSize: 10,
 							fill: "#333333",
 						},
+					},
+				},
+				tooltip: {
+					container: {
+						background: color.palette.surface.mainVariant,
+						color: color.palette.onSurface.main,
+						fontSize: 12,
 					},
 				},
 			}}

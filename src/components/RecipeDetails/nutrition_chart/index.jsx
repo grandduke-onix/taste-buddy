@@ -9,7 +9,15 @@ const NutritionChart = function (props) {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box pt={isNonMobile ? "100px" : "50px"} mx={isNonMobile && "50px"}>
+		<Box
+			pt={"50px"}
+			pb={"50px"}
+			px={isNonMobile ? "50px" : "10px"}
+			mx={isNonMobile && "50px"}
+			backgroundColor={color.palette.surface.mainVariant}
+			mt={"100px"}
+			borderRadius={"30px"}
+		>
 			<Typography
 				variant={isNonMobile ? "h2" : "h3"}
 				color={color.palette.onSurface.main}
@@ -27,7 +35,11 @@ const NutritionChart = function (props) {
 					gap={isNonMobile ? "30px" : "10px"}
 				>
 					<CaloriePieChart calorieBreakdown={props.recipeData.nutrition} />
-					<Typography variant={isNonMobile ? "h2" : "h3"} fontWeight={700}>
+					<Typography
+						variant={isNonMobile ? "h2" : "h3"}
+						fontWeight={700}
+						color={color.palette.onSurface.main}
+					>
 						Carloric Breakdown
 					</Typography>
 				</Box>
@@ -83,6 +95,7 @@ const NutritionChart = function (props) {
 					variant={isNonMobile ? "h2" : "h3"}
 					fontWeight={700}
 					sx={{ mt: "30px" }}
+					color={color.palette.onSurface.main}
 				>
 					Nutritional Information
 				</Typography>
