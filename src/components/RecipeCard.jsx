@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Divider, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { themeSettings } from "../theme";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -31,9 +31,12 @@ const RecipeCard = function (props) {
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
 	const isNonMobile = useMediaQuery("(min-width:600px)");
+	const [hover, setHover] = useState(false);
 
 	return (
 		<Box
+			onMouseEnter={() => setHover(true)}
+			onMouseLeave={() => setHover(false)}
 			flex={isNonMobile ? null : "40%"}
 			component={Link}
 			to={`/recipe-details/${props.recipeId}`}
@@ -41,10 +44,8 @@ const RecipeCard = function (props) {
 			flexDirection={"column"}
 			my={isNonMobile ? "30px" : "10px"}
 			mx={isNonMobile ? "15px" : "5px"}
-			// height={"450px"}
-			// height={isNonMobile ? "450px" : "auto"}
 			height={isNonMobile ? "450px" : "300px"}
-			// width={"300px"}
+			pb={!isNonMobile && "10px"}
 			width={isNonMobile ? "300px" : "170px"}
 			backgroundColor={color.palette.surface.mainVariant}
 			color={color.palette.onSurface.main}
@@ -86,6 +87,7 @@ const RecipeCard = function (props) {
 					variant="h3"
 					fontFamily={"Abril fatface"}
 					fontSize={isNonMobile ? null : "15px"}
+					color={hover && color.palette.primary.main}
 				>
 					{props.name}
 				</Typography>
@@ -96,61 +98,63 @@ const RecipeCard = function (props) {
 					</Typography>
 				) : null}
 
-				{isNonMobile ? (
-					<Typography variant="h4" fontWeight={300}>
-						Cuisine:{" "}
-						{props.cuisines ? (
-							<span style={{ fontWeight: "normal" }}>{props.cuisines}</span>
-						) : (
-							"Unavailable"
-						)}
-					</Typography>
-				) : null}
-
-				<Typography variant="h4" pt={"10px"} fontWeight={300}>
-					Diet:{" "}
-					{props.diet ? (
-						<span style={{ fontWeight: "normal" }}>{props.diet}</span>
+				<Typography variant="h4" fontWeight={300} sx={{ pt: !isNonMobile && "10px" }}>
+					Cuisine:{" "}
+					{props.cuisines ? (
+						<span style={{ fontWeight: "normal" }}>{props.cuisines}</span>
 					) : (
 						"Unavailable"
 					)}
 				</Typography>
 
-				<Box
-					pt={"10px"}
-					mb={"20px"}
-					display={"flex"}
-					flexGrow={1}
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					height={"40px"}
-				>
-					<Box display={"flex"} alignItems={"center"} gap={"7px"}>
-						<AccessTimeIcon fontSize="medium" />{" "}
-						<Typography variant="h4" fontSize={"10px"}>
-							{props.time}'
-						</Typography>
+				{isNonMobile && (
+					<Typography variant="h4" pt={"10px"} fontWeight={300}>
+						Diet:{" "}
+						{props.diet ? (
+							<span style={{ fontWeight: "normal" }}>{props.diet}</span>
+						) : (
+							"Unavailable"
+						)}
+					</Typography>
+				)}
+
+				{isNonMobile && (
+					<Box
+						pt={"10px"}
+						mb={"20px"}
+						display={"flex"}
+						flexGrow={1}
+						justifyContent={"space-between"}
+						alignItems={"center"}
+						height={"40px"}
+					>
+						<Box display={"flex"} alignItems={"center"} gap={"7px"}>
+							<AccessTimeIcon fontSize="medium" />{" "}
+							<Typography variant="h4" fontSize={"10px"}>
+								{props.time}'
+							</Typography>
+						</Box>
+						<Divider
+							orientation="vertical"
+							sx={{ borderRightWidth: 2, borderColor: color.palette.onSurface.main }}
+						/>
+						<Box display={"flex"} alignItems={"center"} gap={"7px"}>
+							<OutdoorGrillIcon fontSize="medium" />{" "}
+							<Typography variant="h4" fontSize={"10px"}>
+								{props.plateAmount} serving(s)
+							</Typography>
+						</Box>
+						<Divider
+							orientation="vertical"
+							sx={{ borderRightWidth: 2, borderColor: color.palette.onSurface.main }}
+						/>
+						<Box display={"flex"} alignItems={"center"} gap={"7px"}>
+							<IconButton>
+								<ShoppingCartIcon fontSize="medium" />
+							</IconButton>
+						</Box>
 					</Box>
-					<Divider
-						orientation="vertical"
-						sx={{ borderRightWidth: 2, borderColor: color.palette.onSurface.main }}
-					/>
-					<Box display={"flex"} alignItems={"center"} gap={"7px"}>
-						<OutdoorGrillIcon fontSize="medium" />{" "}
-						<Typography variant="h4" fontSize={"10px"}>
-							{props.plateAmount} serving(s)
-						</Typography>
-					</Box>
-					<Divider
-						orientation="vertical"
-						sx={{ borderRightWidth: 2, borderColor: color.palette.onSurface.main }}
-					/>
-					<Box display={"flex"} alignItems={"center"} gap={"7px"}>
-						<IconButton>
-							<ShoppingCartIcon fontSize="medium" />
-						</IconButton>
-					</Box>
-				</Box>
+				)}
 			</Box>
 		</Box>
 	);
