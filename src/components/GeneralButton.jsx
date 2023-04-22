@@ -58,7 +58,7 @@ const GeneralButton = function (props) {
 						}}
 					>
 						<Typography variant="h3" textAlign={"center"}>
-							{props.text}
+							{props.children}
 						</Typography>
 					</button>
 				)}

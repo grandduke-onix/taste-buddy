@@ -113,7 +113,7 @@ const MyFeed = function () {
 				py={"50px"}
 				px={isNonMobile ? 0 : "20px"}
 			>
-				<GeneralButton action={apiReCall} text="Load more..." />
+				<GeneralButton action={apiReCall}>Load more...</GeneralButton>
 			</Box>
 		</Box>
 	);

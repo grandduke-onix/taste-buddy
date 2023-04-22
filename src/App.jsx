@@ -63,9 +63,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/recipe-details/:recipeId",
-				element: <RecipeDetails />,
-				// loader: () =>
-				// 	import("../src/components/RecipeDetails").then(module => module.loader()),
+				element: (
+					<Suspense fallback={<RouteChangeAnimation />}>
+						<RecipeDetails />
+					</Suspense>
+				),
 			},
 		],
 	},

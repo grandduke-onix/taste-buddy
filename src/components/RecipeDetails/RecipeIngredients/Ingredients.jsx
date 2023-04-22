@@ -11,14 +11,14 @@ const Ingredients = function (props) {
 	return (
 		<Box mx={isNonMobile ? "30px" : 0} my={"30px"}>
 			<Typography variant="h3">Ingredients:</Typography>
-			{props.ingredients.map(i => (
+			{props.ingredients.map((i, j) => (
 				<Box
+					key={`${i.name}-${j}`}
 					display={"flex"}
 					gap={"10px"}
 					width={"100%"}
 					pt={"15px"}
 					px={isNonMobile ? "20px" : "10px"}
-					key={`${i}-${i.name}`}
 					alignItems={"center"}
 					color={color.palette.onSurface.main}
 				>

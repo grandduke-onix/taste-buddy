@@ -19,6 +19,7 @@ const NutritionInfo = function (props) {
 			borderRadius={"28px"}
 			// px={"24px"}
 			position={"absolute"}
+			zIndex={700}
 			top={isNonMobile ? "20%" : "70px"}
 			left={isNonMobile ? "40%" : 0}
 			display={!props.openModal && "none"}

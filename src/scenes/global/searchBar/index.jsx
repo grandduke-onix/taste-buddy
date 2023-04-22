@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Backdrop, Box, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { themeSettings } from "../../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -88,8 +88,8 @@ const SearchBar = function () {
 				alignItems={"center"}
 				justifyContent={"space-between"}
 				position={"fixed"}
-				zIndex={1000}
-				paddingRight={"30px"}
+				zIndex={500}
+				px={"20px"}
 			>
 				<IconButton onClick={() => setButtonClick(true)}>
 					<SearchIcon sx={{ color: color.palette.onBackground.main }} fontSize="large" />
@@ -103,22 +103,16 @@ const SearchBar = function () {
 			</Box>
 
 			{/* overlay */}
-			<Box
-				position={"fixed"}
-				backgroundColor={"rgba(0, 0, 0, 0.4)"}
-				top={0}
-				left={0}
-				right={0}
-				bottom={0}
-				zIndex={"1"}
-				onClick={() => setButtonClick(false)}
-				display={buttonClick === true ? "block" : "none"}
-			></Box>
+			<Backdrop
+				open={buttonClick}
+				onClick={() => setButtonClick(!buttonClick)}
+				sx={{ zIndex: 600 }}
+			/>
 
 			{/* The Search Form */}
 			<Box
 				position={"fixed"}
-				zIndex={2}
+				zIndex={700}
 				width={"90%"}
 				height={"450px"}
 				backgroundColor={color.palette.surface.mainVariant}

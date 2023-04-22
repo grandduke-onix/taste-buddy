@@ -1,6 +1,6 @@
-import { Box, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Backdrop, Box, Link, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { APIKEY } from "../../configure";
 import { themeSettings } from "../../theme";
 import RecipeSummary from "./RecipeSummary";
@@ -11,6 +11,25 @@ import { RouteChangeAnimation } from "../Loader";
 import NutritionChart from "./nutrition_chart";
 import Ingredients from "./RecipeIngredients/Ingredients";
 import { Link as RouterLink } from "react-router-dom";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import GeneralButton from "../GeneralButton";
+import { keyframes } from "@emotion/react";
+import Footer from "../../scenes/global/Footer";
+
+const animate = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-1em);
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+  100% {
+	opacity: 1;
+	transform: translateY(0);
+  }
+`;
 
 const RecipeDetails = function () {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -18,12 +37,9 @@ const RecipeDetails = function () {
 	const color = themeSettings(themes.palette.mode);
 	const [openModal, setOpenModal] = useState(false);
 	const { recipeId } = useParams();
-	const location = useLocation();
-	console.log(location);
 	const [recipeData, setRecipeData] = useState(null);
 	const [similarRecipes, setSimilarRecipes] = useState(null);
-
-	// console.log(recipeData.nutrition);
+	const [revealChart, setRevealChart] = useState(false);
 
 	const dataLoader = async function () {
 		const response = await fetch(
@@ -35,11 +51,10 @@ const RecipeDetails = function () {
 
 	const getSimilarRecipes = async function () {
 		const response = await fetch(
-			`https://api.spoonacular.com/recipes/${recipeId}/similar?apiKey=${APIKEY}`
+			`https://api.spoonacular.com/recipes/${recipeId}/similar?number=5&apiKey=${APIKEY}`
 		);
 		const responseData = await response.json();
 		setSimilarRecipes(responseData);
-		console.log(similarRecipes);
 	};
 
 	useEffect(() => {
@@ -102,6 +117,11 @@ const RecipeDetails = function () {
 								/>
 							</Box>
 						</Box>
+						<Backdrop
+							open={openModal}
+							onClick={() => setOpenModal(!openModal)}
+							sx={{ zIndex: 600 }}
+						/>
 						<NutritionInfo
 							openModal={openModal}
 							setOpenModal={setOpenModal}
@@ -109,9 +129,44 @@ const RecipeDetails = function () {
 							nutrients={recipeData.nutrition.nutrients}
 						/>
 					</Box>
-					{/* Nutrition diagrams */}
-					<NutritionChart recipeData={recipeData} />
 
+					{/* Nutrition diagrams */}
+					<Box
+						display={revealChart ? "box" : "none"}
+						sx={{
+							animation: `${animate} 400ms ${themes.transitions.easing.easeInOut}`,
+						}}
+					>
+						<NutritionChart recipeData={recipeData} revealChart={revealChart} />
+					</Box>
+
+					<Box pt={"100px"} display={isNonMobile && "flex"} justifyContent={"center"}>
+						<GeneralButton action={() => setRevealChart(!revealChart)}>
+							{revealChart ? (
+								<Box
+									display={"flex"}
+									alignItems={"center"}
+									justifyContent={"center"}
+									gap={"10px"}
+								>
+									<ExpandLess />
+									Hide nutrition chart
+								</Box>
+							) : (
+								<Box
+									display={"flex"}
+									alignItems={"center"}
+									justifyContent={"center"}
+									gap={"10px"}
+								>
+									<ExpandMore />
+									Show nutrition chart
+								</Box>
+							)}
+						</GeneralButton>
+					</Box>
+
+					{/* Similar Recipes */}
 					{similarRecipes && (
 						<Box
 							pt={"100px"}
@@ -121,9 +176,9 @@ const RecipeDetails = function () {
 							<Typography variant={isNonMobile ? "h2" : "h3"}>
 								Related Recipes:
 							</Typography>
-							{similarRecipes.map(i => (
+							{similarRecipes.map((i, j) => (
 								<Box
-									key={i.id}
+									key={`${i.id}-${j}`}
 									px={"20px"}
 									display={"flex"}
 									flexDirection={"column"}
@@ -146,6 +201,10 @@ const RecipeDetails = function () {
 							))}
 						</Box>
 					)}
+
+					<Box pt={"50px"}>
+						<Footer />
+					</Box>
 				</Box>
 			) : (
 				<RouteChangeAnimation />
