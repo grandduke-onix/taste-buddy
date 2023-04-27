@@ -68,7 +68,13 @@ const BrowseRecipes = function () {
 			</Box>
 
 			<Box mt={"100px"} width={"100%"}>
-				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+				<Box
+					sx={{ borderBottom: 1, borderColor: "divider" }}
+					position={"sticky"}
+					top={0}
+					backgroundColor={color.palette.surface.main}
+					zIndex={800}
+				>
 					<Tabs
 						value={value}
 						onChange={handleChange}
