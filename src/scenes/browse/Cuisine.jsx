@@ -1,5 +1,5 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import "@splidejs/react-splide/css";
 import "@splidejs/react-splide/css/sea-green";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
@@ -11,18 +11,42 @@ import italianDish from "../../assets/italian-dish.jpg";
 import mediterraneanDish from "../../assets/mediterranean-dish.jpg";
 import middleEasternDish from "../../assets/middle-east.jpg";
 import { themeSettings } from "../../theme";
+import { Link } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const Cuisine = function () {
-	const dishArray = [
-		{ pic: africanDish, name: "African" },
-		{ pic: americanDish, name: "American" },
-		{ pic: chineseDish, name: "Chinese" },
-		{ pic: frenchDish, name: "French" },
-		{ pic: italianDish, name: "Italian" },
-		{ pic: mediterraneanDish, name: "Mediterranean" },
-		{ pic: middleEasternDish, name: "Middle East" },
+	const popularCuisines = [
+		{ pic: africanDish, name: "African", to: "cuisine/african" },
+		{ pic: americanDish, name: "American", to: "cuisine/american" },
+		{ pic: chineseDish, name: "Chinese", to: "cuisine/chinese" },
+		{ pic: frenchDish, name: "French", to: "cuisine/french" },
+		{ pic: italianDish, name: "Italian", to: "cuisine/italian" },
+		{ pic: mediterraneanDish, name: "Mediterranean", to: "cuisine/mediterranean" },
+		{ pic: middleEasternDish, name: "Middle East", to: "cuisine/middle-east" },
 	];
-	const [onHovered, setOnHovered] = useState(false);
+
+	const otherCuisines = [
+		{ name: "British", to: "cuisine/british" },
+		{ name: "Cajun", to: "cuisine/cajun" },
+		{ name: "Caribbean", to: "cuisine/caribbean" },
+		{ name: "Eastern European", to: "cuisine/eastern-european" },
+		{ name: "European", to: "cuisine/european" },
+		{ name: "German", to: "cuisine/german" },
+		{ name: "Greek", to: "cuisine/greek" },
+		{ name: "Indian", to: "cuisine/indian" },
+		{ name: "Irish", to: "cuisine/irish" },
+		{ name: "Japanese", to: "cuisine/japanese" },
+		{ name: "Jewish", to: "cuisine/jewish" },
+		{ name: "Korean", to: "cuisine/korean" },
+		{ name: "Latin American", to: "cuisine/latin-american" },
+		{ name: "Mexican", to: "cuisine/mexican" },
+		{ name: "Nordic", to: "cuisine/nordic" },
+		{ name: "Southern", to: "cuisine/southern" },
+		{ name: "Spanish", to: "cuisine/spanish" },
+		{ name: "Thai", to: "cuisine/thai" },
+		{ name: "Vietnamese", to: "cuisine/vietnamese" },
+	];
+
 	const themes = useTheme();
 	const color = themeSettings(themes.palette.mode);
 	const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -41,22 +65,34 @@ const Cuisine = function () {
 			</Typography>
 
 			<Box pt={"70px"}>
+				<Typography variant={isNonMobile ? "h2" : "h3"}>Popular cuisines</Typography>
 				<Splide
+					style={{ color: "red" }}
 					aria-label="My Favorite Images"
 					options={{
 						perPage: isNonMobile ? 4 : 2,
 						perMove: 1,
-						arrows: isNonMobile ? true : false,
+						// arrows: isNonMobile ? true : false,
 					}}
 				>
-					{dishArray.map(i => {
+					{popularCuisines.map(i => {
 						return (
-							<SplideSlide>
+							<SplideSlide key={i.name}>
 								<Box
 									display={"flex"}
 									gap={"20px"}
 									flexDirection={"column"}
 									alignItems={"center"}
+									component={Link}
+									to={i.to}
+									color={color.palette.onSurface.main}
+									sx={{
+										textDecoration: "none",
+										":hover": {
+											color: color.palette.primary.main,
+											transition: "color .5s",
+										},
+									}}
 								>
 									<Box
 										height={isNonMobile ? "200px" : "100px"}
@@ -74,7 +110,7 @@ const Cuisine = function () {
 											}}
 										/>
 									</Box>
-									<Typography variant="h3" color={onHovered && "aqua"}>
+									<Typography variant={isNonMobile ? "h3" : "h4"}>
 										{i.name}
 									</Typography>
 								</Box>
@@ -82,7 +118,47 @@ const Cuisine = function () {
 						);
 					})}
 				</Splide>
-				<Box>mad</Box>
+				<Box pt={"100px"}>
+					<Typography
+						variant={isNonMobile ? "h2" : "h3"}
+						color={color.palette.onSurface.main}
+					>
+						Other Cuisines
+					</Typography>
+					<Box
+						display={"grid"}
+						gridTemplateColumns={isNonMobile ? "repeat(3, 1fr)" : "repeat(2, 1fr)"}
+						gridTemplateRows={"auto"}
+						rowGap={"20px"}
+						pt={"50px"}
+						px={isNonMobile && "50px"}
+					>
+						{otherCuisines.map(i => {
+							return (
+								<Typography
+									key={i.name}
+									component={Link}
+									to={i.to}
+									variant={isNonMobile ? "h3" : "h4"}
+									color={color.palette.onSurface.main}
+									sx={{
+										display: "flex",
+										gap: "10px",
+										alignItems: "center",
+										textDecoration: "none",
+										":hover": {
+											color: color.palette.primary.main,
+											transition: "color .3s",
+										},
+									}}
+								>
+									<AddCircleOutlineIcon />
+									{i.name}
+								</Typography>
+							);
+						})}
+					</Box>
+				</Box>
 			</Box>
 		</Box>
 	);
