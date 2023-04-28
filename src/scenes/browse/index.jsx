@@ -10,7 +10,7 @@ import { Link, Outlet } from "react-router-dom";
 const TabPanel = function (props) {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	return (
-		<Box px={isNonMobile && "70px"}>
+		<Box px={isNonMobile && "0px"}>
 			{props.value === props.index && <Box sx={{ py: 3 }}>{props.children}</Box>}
 		</Box>
 	);
