@@ -52,11 +52,11 @@ const Cuisine = function () {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box>
-			<Typography variant="h1" fontWeight={700}>
+		<Box px={isNonMobile && "70px"}>
+			<Typography variant={isNonMobile ? "h1" : "h2"} fontWeight={700}>
 				Cuisines
 			</Typography>
-			<Typography variant="h3" pt={"20px"}>
+			<Typography variant={isNonMobile ? "h3" : "h4"} pt={"20px"}>
 				Are you tired of searching for new recipes online and never finding what you're
 				looking for? Look no further than the recipe web app! With this app, you can browse
 				cuisines from around the world at your own comfort. Whether you're in the mood for
