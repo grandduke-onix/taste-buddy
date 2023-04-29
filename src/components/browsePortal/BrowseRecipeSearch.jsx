@@ -15,23 +15,42 @@ const BrowseRecipesSearch = function () {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const params = useParams();
 	const [recipeData, setRecipeData] = useState(null);
+	const [newRecipeData, setNewRecipeData] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [offsetCount, setOffsetCount] = useState(10);
+	const [recipeCount, setRecipeCount] = useState();
 
 	const cuisineSearch = async function () {
-		setIsLoading(true);
 		const response = await fetch(
 			`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&apiKey=${APIKEY}`
 		);
 		const responseData = await response.json();
-		// setRecipeData(newData => [...newData, ...responseData]);
 		setRecipeData(responseData);
-		setIsLoading(false);
 	};
+
+	// This api is called when the user clicks the "load more" button
+	const apiReCall = async function () {
+		setIsLoading(true);
+		const response = await fetch(
+			`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&offset=${offsetCount}&apiKey=${APIKEY}`
+		);
+		const rawData = await response.json();
+		const responseData = rawData.results;
+		setNewRecipeData(newData => [...newData, ...responseData]);
+		setIsLoading(false);
+		setOffsetCount(prev => prev + 10);
+		setRecipeCount(newRecipeData.length + 10);
+	};
+
+	// console.log(recipeData.totalResults);
+	console.log(recipeCount);
+	// console.log(!recipeCount >= recipeData.totalResults);
 
 	useEffect(() => {
 		cuisineSearch();
 	}, [params.search, params.parameter]);
 
+	// this returns the specific cuisine description for each respective cuisine
 	const cuisineExplanation = recipeType.filter(i => {
 		if (i.name === params.parameter) {
 			return i;
@@ -126,9 +145,30 @@ const BrowseRecipesSearch = function () {
 										cuisines={recipe.cuisines.join(", ")}
 									/>
 								))}
+
+								{/* to load more recipes on button click */}
+								{newRecipeData.map(recipe => (
+									<RecipeCard
+										key={recipe.id}
+										recipeId={recipe.id}
+										image={recipe.image}
+										name={recipe.title}
+										author={recipe.sourceName}
+										time={recipe.readyInMinutes}
+										plateAmount={recipe.servings}
+										diet={
+											isNonMobile
+												? recipe.diets.join(", ")
+												: `${recipe.diets.slice(0, 2).join(", ")}...`
+										}
+										cuisines={recipe.cuisines.join(", ")}
+									/>
+								))}
 							</Box>
 						</Box>
 						{isLoading && <RecipeLoader />}
+						<p>bull</p>
+						{/* {recipeCount >= recipeData.totalResults ? <p>yes</p> : null} */}
 						{/* <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
 							{errorLoading && errorMessage && (
 								<Typography variant="h3" textAlign={"center"}>
@@ -144,7 +184,9 @@ const BrowseRecipesSearch = function () {
 							py={"50px"}
 							px={isNonMobile ? 0 : "20px"}
 						>
-							{isLoading ? null : <GeneralButton>Load more...</GeneralButton>}
+							{!isLoading && (
+								<GeneralButton action={apiReCall}>Load more...</GeneralButton>
+							)}
 						</Box>
 					</Box>
 					<Footer />
