@@ -2,7 +2,7 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { themeSettings } from "../../theme";
-import { recipeType } from "./browseRecipes";
+import { recipeType, dietTypes } from "./browseRecipes";
 import { APIKEY } from "../../configure";
 import RecipeCard from "../RecipeCard";
 import { RecipeLoader, RouteChangeAnimation } from "../Loader";
@@ -16,14 +16,16 @@ const BrowseRecipesSearch = function () {
 	const params = useParams();
 	const [recipeData, setRecipeData] = useState(null);
 	const [newRecipeData, setNewRecipeData] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [offsetCount, setOffsetCount] = useState(10);
-	const [recipeCount, setRecipeCount] = useState();
+	const [isLoading, setIsLoading] = useState(false); //detects whether data has been loaded from api
+	const [offsetCount, setOffsetCount] = useState(0); //calculates the offset parameter for each time the load more button is clicked
+	const [recipeCount, setRecipeCount] = useState(); //calculates whether there is still any recipe available for each cuisine
 
+	const getApi = () =>
+		`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&offset=${offsetCount}&apiKey=${APIKEY}`;
+
+	// console.log(params);
 	const cuisineSearch = async function () {
-		const response = await fetch(
-			`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&apiKey=${APIKEY}`
-		);
+		const response = await fetch(getApi());
 		const responseData = await response.json();
 		setRecipeData(responseData);
 	};
@@ -31,9 +33,7 @@ const BrowseRecipesSearch = function () {
 	// This api is called when the user clicks the "load more" button
 	const apiReCall = async function () {
 		setIsLoading(true);
-		const response = await fetch(
-			`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&offset=${offsetCount}&apiKey=${APIKEY}`
-		);
+		const response = await fetch(getApi());
 		const rawData = await response.json();
 		const responseData = rawData.results;
 		setNewRecipeData(newData => [...newData, ...responseData]);
@@ -42,16 +42,16 @@ const BrowseRecipesSearch = function () {
 		setRecipeCount(newRecipeData.length + 10);
 	};
 
-	// console.log(recipeData.totalResults);
-	console.log(recipeCount);
-	// console.log(!recipeCount >= recipeData.totalResults);
-
 	useEffect(() => {
 		cuisineSearch();
 	}, [params.search, params.parameter]);
 
-	// this returns the specific cuisine description for each respective cuisine
-	const cuisineExplanation = recipeType.filter(i => {
+	// this returns the specific data description for each respective recipe search
+	const egg = search => {
+		if (search === "diet") return dietTypes;
+		if (search === "cuisine") return recipeType;
+	};
+	const cuisineExplanation = egg(params.search).filter(i => {
 		if (i.name === params.parameter) {
 			return i;
 		}
@@ -65,17 +65,24 @@ const BrowseRecipesSearch = function () {
 					<Box
 						height={"auto"}
 						display={"flex"}
+						flexDirection={isNonMobile ? "row" : "column"}
 						gap={"50px"}
 						p={"50px"}
 						px={isNonMobile && "70px"}
+						alignItems={"center"}
 					>
 						<Box
 							backgroundColor="aqua"
-							height={"150px"}
-							width={"150px"}
+							height={"200px"}
+							width={"200px"}
 							borderRadius={"100%"}
+							overflow={"hidden"}
 						>
-							image
+							<img
+								src={cuisineExplanation[0].pic}
+								alt=""
+								style={{ width: "100%", height: "100%", objectFit: "cover" }}
+							/>
 						</Box>
 						<Box
 							display={"flex"}
@@ -92,7 +99,7 @@ const BrowseRecipesSearch = function () {
 								<Typography variant="h4">baga</Typography>
 							</Box>
 							<Typography
-								variant={isNonMobile ? "h2" : "h3"}
+								variant={isNonMobile ? "h2" : "h2"}
 								fontWeight={900}
 								color={color.palette.onSurface.main}
 							>
@@ -103,7 +110,7 @@ const BrowseRecipesSearch = function () {
 
 					{/* Body */}
 					<Box pt={"50px"}>
-						<Box px={isNonMobile && "70px"}>
+						<Box px={isNonMobile && "70px"} color={color.palette.onSurface.main}>
 							<Typography variant={isNonMobile ? "h3" : "h4"}>
 								{cuisineExplanation[0].explain1}
 							</Typography>
@@ -116,6 +123,8 @@ const BrowseRecipesSearch = function () {
 							<Typography
 								variant={isNonMobile ? "h2" : "h3"}
 								sx={{ pl: isNonMobile && "25px" }}
+								color={color.palette.onSurface.main}
+								fontWeight={700}
 							>
 								Feed your {params.parameter} curiosity:
 							</Typography>
@@ -167,26 +176,37 @@ const BrowseRecipesSearch = function () {
 							</Box>
 						</Box>
 						{isLoading && <RecipeLoader />}
-						<p>bull</p>
-						{/* {recipeCount >= recipeData.totalResults ? <p>yes</p> : null} */}
-						{/* <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
-							{errorLoading && errorMessage && (
-								<Typography variant="h3" textAlign={"center"}>
-									{errorMessage}
-								</Typography>
-							)}
-						</Box> */}
 
 						<Box
-							display={isNonMobile ? "flex" : "null"}
-							alignItems={"center"}
-							justifyContent={"center"}
-							py={"50px"}
-							px={isNonMobile ? 0 : "20px"}
+							display={recipeCount >= recipeData.totalResults ? null : "none"}
+							pb={"50px"}
 						>
-							{!isLoading && (
-								<GeneralButton action={apiReCall}>Load more...</GeneralButton>
-							)}
+							<Typography
+								color={color.palette.tertiary.main}
+								fontWeight={700}
+								variant="h2"
+								sx={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								No more recipes...
+							</Typography>
+						</Box>
+
+						<Box display={recipeCount >= recipeData.totalResults && "none"}>
+							<Box
+								display={isNonMobile ? "flex" : "null"}
+								alignItems={"center"}
+								justifyContent={"center"}
+								py={"50px"}
+								px={isNonMobile ? 0 : "20px"}
+							>
+								{!isLoading && (
+									<GeneralButton action={apiReCall}>Load more...</GeneralButton>
+								)}
+							</Box>
 						</Box>
 					</Box>
 					<Footer />
