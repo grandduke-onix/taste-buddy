@@ -21,7 +21,7 @@ const Global = function () {
 			<Navbar />
 			<main className="content">
 				<SearchBar />
-				<Box p={"0 20px"} pt={isNonMobile ? "40px" : "80px"}>
+				<Box p={"0 20px"} pt={isNonMobile ? "40px" : "80px"} mb={!isNonMobile && "100px"}>
 					<Outlet />
 				</Box>
 			</main>
