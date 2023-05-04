@@ -12,7 +12,6 @@ import whole30 from "../../assets/whole-30.jpg"
 
 import drink from "../../assets/drinks.jpg"
 import dessert from "../../assets/dessert.jpg"
-import dessert2 from "../../assets/dessert2.jpg"
 import mainCourse from "../../assets/main-course.jpg"
 import marinade from "../../assets/marinade.jpg"
 
