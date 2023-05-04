@@ -22,14 +22,14 @@ const Cuisine = function () {
 		{ pic: frenchDish, name: "French", to: "cuisine/french" },
 		{ pic: italianDish, name: "Italian", to: "cuisine/italian" },
 		{ pic: mediterraneanDish, name: "Mediterranean", to: "cuisine/mediterranean" },
-		{ pic: middleEasternDish, name: "Middle East", to: "cuisine/middle-east" },
+		{ pic: middleEasternDish, name: "Middle East", to: "cuisine/middle eastern" },
 	];
 
 	const otherCuisines = [
 		{ name: "British", to: "cuisine/british" },
 		{ name: "Cajun", to: "cuisine/cajun" },
 		{ name: "Caribbean", to: "cuisine/caribbean" },
-		{ name: "Eastern European", to: "cuisine/eastern-european" },
+		{ name: "Eastern European", to: "cuisine/eastern european" },
 		{ name: "European", to: "cuisine/european" },
 		{ name: "German", to: "cuisine/german" },
 		{ name: "Greek", to: "cuisine/greek" },
@@ -38,7 +38,7 @@ const Cuisine = function () {
 		{ name: "Japanese", to: "cuisine/japanese" },
 		{ name: "Jewish", to: "cuisine/jewish" },
 		{ name: "Korean", to: "cuisine/korean" },
-		{ name: "Latin American", to: "cuisine/latin-american" },
+		{ name: "Latin American", to: "cuisine/latin american" },
 		{ name: "Mexican", to: "cuisine/mexican" },
 		{ name: "Nordic", to: "cuisine/nordic" },
 		{ name: "Southern", to: "cuisine/southern" },
@@ -52,7 +52,7 @@ const Cuisine = function () {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	return (
-		<Box px={isNonMobile && "70px"}>
+		<Box px={isNonMobile && "70px"} color={color.palette.onSurface.main}>
 			<Typography variant={isNonMobile ? "h1" : "h2"} fontWeight={700}>
 				Cuisines
 			</Typography>
