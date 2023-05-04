@@ -78,7 +78,7 @@ const Navbar = function () {
 						/>
 					}
 					currentLocation={location === "browse" ? true : false}
-					toolTip="Browse by ingredients"
+					toolTip="Browse and discover new recipes "
 				/>
 				<ButtonElement
 					link={"guided-recipes"}

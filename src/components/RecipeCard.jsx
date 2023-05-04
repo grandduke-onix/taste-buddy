@@ -54,7 +54,11 @@ const RecipeCard = function (props) {
 			sx={{
 				boxShadow: 0,
 				transition: "box-shadow .2s ease-out",
-				":hover": { boxShadow: "1px 3px 6px -1px rgba(0,0,0,0.75)" },
+				":hover": {
+					boxShadow: "1px 3px 6px -1px rgba(0,0,0,0.75)",
+					transform: "translateY(-5px)",
+					transition: "transform .3s",
+				},
 				cursor: "pointer",
 				textDecoration: "none",
 			}}

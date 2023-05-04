@@ -7,12 +7,18 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RecipeDetails from "./components/RecipeDetails";
 import ErrorPage from "./components/ErrorPage";
 import { RouteChangeAnimation } from "./components/Loader";
+import BrowseRecipesSearch from "./components/browsePortal/BrowseRecipeSearch";
 
 const MyFeed = lazy(() => import("./scenes/feed"));
 const MyRecipes = lazy(() => import("./scenes/recipes"));
 const MyPlanning = lazy(() => import("./scenes/planning"));
 const RestaurantSearch = lazy(() => import("./scenes/restaurants"));
 const BrowseRecipes = lazy(() => import("./scenes/browse"));
+
+const Cuisine = lazy(() => import("./scenes/browse/Cuisine"));
+const Diet = lazy(() => import("./scenes/browse/Diet"));
+const Courses = lazy(() => import("./scenes/browse/Courses"));
+const Intolerance = lazy(() => import("./scenes/browse/Intolerance"));
 
 const router = createBrowserRouter([
 	{
@@ -36,6 +42,41 @@ const router = createBrowserRouter([
 						<BrowseRecipes />
 					</Suspense>
 				),
+				children: [
+					{
+						index: true,
+						element: (
+							<Suspense fallback={<RouteChangeAnimation />}>
+								<Cuisine />
+							</Suspense>
+						),
+					},
+					{
+						path: "diet",
+						element: (
+							<Suspense fallback={<RouteChangeAnimation />}>
+								<Diet />
+							</Suspense>
+						),
+					},
+					{
+						path: "type",
+						element: (
+							<Suspense fallback={<RouteChangeAnimation />}>
+								<Courses />
+							</Suspense>
+						),
+					},
+					{
+						path: "intolerances",
+						element: (
+							<Suspense fallback={<RouteChangeAnimation />}>
+								<Intolerance />
+							</Suspense>
+						),
+					},
+					{ path: ":search/:parameter", element: <BrowseRecipesSearch /> },
+				],
 			},
 			{
 				path: "guided-recipes",
