@@ -89,7 +89,7 @@ const Diet = function () {
 	return (
 		<Box px={isNonMobile && "70px"} color={color.palette.onSurface.main}>
 			<Typography variant={isNonMobile ? "h1" : "h2"} fontWeight={700}>
-				Diets
+				Looking for good recipe diets?
 			</Typography>
 			<Typography variant={isNonMobile ? "h3" : "h4"} pt={"20px"}>
 				Following special diets limit what you can eat, but it doesn't limit what you can

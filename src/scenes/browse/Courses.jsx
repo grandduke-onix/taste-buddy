@@ -68,13 +68,18 @@ const Courses = function () {
 								},
 							}}
 						>
-							<Typography variant={isNonMobile ? "h3" : "h4"} color={"white"}>
+							<Typography
+								variant={isNonMobile ? "h3" : "h4"}
+								color={"white"}
+								textAlign={"center"}
+							>
 								Fresh ideas for dessert
 							</Typography>
 							<Typography
 								variant={isNonMobile ? "h2" : "h3"}
 								color={"white"}
 								fontWeight={700}
+								textAlign={"center"}
 							>
 								Search for tasty healthy desserts
 							</Typography>
@@ -100,13 +105,18 @@ const Courses = function () {
 								},
 							}}
 						>
-							<Typography variant={isNonMobile ? "h3" : "h4"} color={"white"}>
+							<Typography
+								variant={isNonMobile ? "h3" : "h4"}
+								color={"white"}
+								textAlign={"center"}
+							>
 								Access to tasty drinks
 							</Typography>
 							<Typography
 								variant={isNonMobile ? "h2" : "h3"}
 								color={"white"}
 								fontWeight={700}
+								textAlign={"center"}
 							>
 								Search for fun and special drinks
 							</Typography>
@@ -137,8 +147,14 @@ const Courses = function () {
 							},
 						}}
 					>
-						<Typography variant={isNonMobile ? "h3" : "h4"}>What to eat now</Typography>
-						<Typography variant={isNonMobile ? "h2" : "h3"} fontWeight={700}>
+						<Typography variant={isNonMobile ? "h3" : "h4"} textAlign={"center"}>
+							What to eat now
+						</Typography>
+						<Typography
+							variant={isNonMobile ? "h2" : "h3"}
+							fontWeight={700}
+							textAlign={"center"}
+						>
 							Search for Main-courses
 						</Typography>
 					</Box>
