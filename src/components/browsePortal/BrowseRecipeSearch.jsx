@@ -2,7 +2,7 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { themeSettings } from "../../theme";
-import { recipeType, dietTypes } from "./browseRecipes";
+import { recipeType, dietTypes, courseTypes, intoleranceTypes } from "./browseRecipes";
 import { APIKEY } from "../../configure";
 import RecipeCard from "../RecipeCard";
 import { RecipeLoader, RouteChangeAnimation } from "../Loader";
@@ -19,6 +19,8 @@ const BrowseRecipesSearch = function () {
 	const [isLoading, setIsLoading] = useState(false); //detects whether data has been loaded from api
 	const [offsetCount, setOffsetCount] = useState(0); //calculates the offset parameter for each time the load more button is clicked
 	const [recipeCount, setRecipeCount] = useState(); //calculates whether there is still any recipe available for each cuisine
+
+	const randomPic = Math.floor(Math.random() * 10);
 
 	const getApi = () =>
 		`https://api.spoonacular.com/recipes/complexSearch?number=10&addRecipeInformation=true&${params.search}=${params.parameter}&offset=${offsetCount}&apiKey=${APIKEY}`;
@@ -46,12 +48,14 @@ const BrowseRecipesSearch = function () {
 		cuisineSearch();
 	}, [params.search, params.parameter]);
 
-	// this returns the specific data description for each respective recipe search
-	const egg = search => {
+	// this returns the specific data description for each respective recipe search parameter
+	const dataDescription = search => {
 		if (search === "diet") return dietTypes;
 		if (search === "cuisine") return recipeType;
+		if (search === "type") return courseTypes;
+		if (search === "intolerances") return intoleranceTypes;
 	};
-	const cuisineExplanation = egg(params.search).filter(i => {
+	const cuisineExplanation = dataDescription(params.search).filter(i => {
 		if (i.name === params.parameter) {
 			return i;
 		}
@@ -72,15 +76,27 @@ const BrowseRecipesSearch = function () {
 						alignItems={"center"}
 					>
 						<Box
-							backgroundColor="aqua"
 							height={"200px"}
 							width={"200px"}
 							borderRadius={"100%"}
 							overflow={"hidden"}
 						>
 							<img
-								src={cuisineExplanation[0].pic}
-								alt=""
+								// Even i dont know what i did here, it just works😁,
+								// If pic is generated in browseRecipes.js folder it uses the pic
+								// else it uses a random pic from the spoonacular api
+								//these algorithm returns a random number in the scope of the returned total results from the api
+								//to generate a random pic.
+								src={
+									cuisineExplanation[0].pic
+										? cuisineExplanation[0].pic
+										: recipeData.results[
+												randomPic > recipeData.totalResults
+													? recipeData.totalResults
+													: randomPic
+										  ].image
+								}
+								alt="main pic"
 								style={{ width: "100%", height: "100%", objectFit: "cover" }}
 							/>
 						</Box>
@@ -109,7 +125,7 @@ const BrowseRecipesSearch = function () {
 					</Box>
 
 					{/* Body */}
-					<Box pt={"50px"}>
+					<Box pt={isNonMobile && "50px"}>
 						<Box px={isNonMobile && "70px"} color={color.palette.onSurface.main}>
 							<Typography variant={isNonMobile ? "h3" : "h4"}>
 								{cuisineExplanation[0].explain1}
@@ -119,7 +135,7 @@ const BrowseRecipesSearch = function () {
 							</Typography>
 						</Box>
 
-						<Box pt={"100px"}>
+						<Box pt={isNonMobile ? "100px" : "50px"}>
 							<Typography
 								variant={isNonMobile ? "h2" : "h3"}
 								sx={{ pl: isNonMobile && "25px" }}
@@ -129,7 +145,7 @@ const BrowseRecipesSearch = function () {
 								Feed your {params.parameter} curiosity:
 							</Typography>
 							<Box
-								pt={"50px"}
+								pt={isNonMobile ? "50px" : "25px"}
 								display={"flex"}
 								flexWrap={"wrap"}
 								alignItems={"center"}
