@@ -30,6 +30,7 @@ const Navbar = function () {
 			borderRadius={isNonMobile ? "0 16px 16px 0" : "16px 16px 0 0"}
 			position={!isNonMobile && "fixed"} //fix the navbar to the bottom in mobile screens
 			zIndex={!isNonMobile && 900}
+			bottom={!isNonMobile && 0}
 		>
 			<List
 				sx={{
